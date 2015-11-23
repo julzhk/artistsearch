@@ -20,4 +20,6 @@ class SearchEngine(object):
         r = self.data
         if max_age:
             r = [i for i in r if i['age']< max_age]
+        if min_age:
+            r = [i for i in r if i['age']> min_age]
         return r
