@@ -115,3 +115,30 @@ class APIJSONTest(TestCase):
         self.assertTrue('id1' in ids)
         self.assertTrue('id2' in ids)
         self.assertTrue('id3' in ids)
+
+class APIJSONFilterTest(TestCase):
+
+    def setUp(self):
+        self.data = [
+            {"age": 10, "uuid": "id1"},
+            {"age": 20, "uuid": "id2"},
+            {"age": 30, "uuid": "id3"}
+        ]
+
+
+    def test_api_with_mock_data_with_no_filter_json_count(self):
+        request = HttpRequest()
+        found = resolve('/api')
+        response = found.func(request,data=self.data)
+        json_data = json.loads(response.content)
+        print json_data
+        self.assertEqual(len(json_data),3)
+
+    def test_api_with_mock_data_with_one_filter_json_count(self):
+        request = HttpRequest()
+        found = resolve('/api?min=11')
+        response = found.func(request,data=self.data)
+        json_data = json.loads(response.content)
+        print json_data
+        self.assertEqual(len(json_data),2)
+
