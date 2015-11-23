@@ -7,7 +7,7 @@ def home_page(request):
 
 
 def api_page(request):
-    pass
+    return HttpResponse(content_type='application/json')
 
 
 class SearchEngine(object):
@@ -17,7 +17,7 @@ class SearchEngine(object):
     def search(self, min=None, max=None, **kwargs):
         r = self.data
         if max:
-            r = [i for i in r if i['age']< max]
+            r = [i for i in r if i['age'] < max]
         if min:
-            r = [i for i in r if i['age']> min]
+            r = [i for i in r if i['age'] > min]
         return r

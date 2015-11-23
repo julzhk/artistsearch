@@ -40,13 +40,12 @@ class SimpleAPITest(TestCase):
 
 
 class DataSearch(TestCase):
-
     def setUp(self):
         self.data = [
-                {"age": 10, "uuid": "id1"},
-                {"age": 20, "uuid": "id2"},
-                {"age": 30, "uuid": "id3"}
-                ]
+            {"age": 10, "uuid": "id1"},
+            {"age": 20, "uuid": "id2"},
+            {"age": 30, "uuid": "id3"}
+        ]
         self.searcher = SearchEngine(self.data)
 
     def test_simple_search(self):
@@ -79,5 +78,12 @@ class DataSearch(TestCase):
 
     def test_max_and_min_search_id(self):
         result = self.searcher.search(max=21, min=11)
-        self.assertEqual(result[0]['uuid'],'id2')
+        self.assertEqual(result[0]['uuid'], 'id2')
 
+class APIJSONTest(TestCase):
+
+    def test_api_returns_json(self):
+        request = HttpRequest()
+        response = api_page(request)
+        self.assertTrue(response.status_code,200)
+        self.assertTrue('json' in response['Content-Type'])
