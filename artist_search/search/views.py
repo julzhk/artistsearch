@@ -38,7 +38,7 @@ class SearchEngine(object):
         """
         given a dataset order by middle of age range
         :param data: list of dicts {age:int, uuid = ID}
-        :return: sorted data biased to middle of age range
+        :return: sorted data {age:int, uuid = ID, bias = INT} biased to middle of age range
         """
         try:
             ages = [i['age'] for i in data]
