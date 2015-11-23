@@ -62,6 +62,10 @@ class DataSearch(TestCase):
         result = self.searcher.search(max=21)
         self.assertEqual(len(result), 2)
 
+    def test_simple_search_no_params_results_shows_all(self):
+        result = self.searcher.search()
+        self.assertEqual(len(result), 3)
+
     def test_max_age_search_has_correct_ids(self):
         result = self.searcher.search(max=21)
         ids = [i['uuid'] for i in result]
