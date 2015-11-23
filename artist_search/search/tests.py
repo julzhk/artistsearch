@@ -40,13 +40,23 @@ class SimpleAPITest(TestCase):
 
 
 class DataSearch(TestCase):
-    def test_simple_search(self):
-        data = [{"age": 10, "uuid": "id1"},
+
+    def setUp(self):
+        self.data = [{"age": 10, "uuid": "id1"},
                 {"age": 20, "uuid": "id2"},
                 {"age": 30, "uuid": "id3"}
                 ]
-        searcher = SearchEngine(data)
+
+    def test_simple_search(self):
+        searcher = SearchEngine(self.data)
         result = searcher.search(max=11)
         self.assertEqual(len(result), 1)
+
+    def test_simple_search_results(self):
+        searcher = SearchEngine(self.data)
+        result = searcher.search(max=11)
+        result = result[0]
+        self.assertEqual(result['age'], 10)
+
 
 

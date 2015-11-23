@@ -15,4 +15,4 @@ class SearchEngine(object):
         pass
 
     def search(self, *args, **kwargs):
-        return [1]
+        return [{'age':10}]
