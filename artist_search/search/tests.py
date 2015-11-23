@@ -131,14 +131,14 @@ class APIJSONFilterTest(TestCase):
         found = resolve('/api')
         response = found.func(request,data=self.data)
         json_data = json.loads(response.content)
-        print json_data
         self.assertEqual(len(json_data),3)
 
     def test_api_with_mock_data_with_one_filter_json_count(self):
         request = HttpRequest()
-        found = resolve('/api?min=11')
+        request.GET = {'min':'11'}
+        found = resolve('/api')
         response = found.func(request,data=self.data)
         json_data = json.loads(response.content)
-        print json_data
         self.assertEqual(len(json_data),2)
+
 

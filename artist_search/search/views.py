@@ -8,7 +8,8 @@ def home_page(request):
 
 def api_page(request, data=None):
     searcher = SearchEngine(data=data)
-    results = searcher.search()
+    min = request.GET.get('min',None)
+    results = searcher.search(min=min)
     return HttpResponse(json.dumps(results),
                         content_type='application/json'
                         )
@@ -23,5 +24,5 @@ class SearchEngine(object):
         if max:
             r = [i for i in r if i['age'] < max]
         if min:
-            r = [i for i in r if i['age'] > min]
+            r = [i for i in r if i['age'] > int(min)]
         return r
