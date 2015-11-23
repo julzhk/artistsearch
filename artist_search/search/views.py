@@ -33,7 +33,7 @@ class SearchEngine(object):
     def search(self, min=None, max=None, **kwargs):
         r = self.data
         if max:
-            r = [i for i in r if i['age'] < int(max)]
+            r = [i for i in r if i['age'] <= int(max)]
         if min:
             r = [i for i in r if i['age'] > int(min)]
         return r
