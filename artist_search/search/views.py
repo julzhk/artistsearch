@@ -16,6 +16,8 @@ def home_page(request):
 
 
 def api_page(request, data=None):
+    if data == None:
+        data = import_data('search/data.json')
     searcher = SearchEngine(data=data)
     results = searcher.search(**request.GET)
     return HttpResponse(json.dumps(results),

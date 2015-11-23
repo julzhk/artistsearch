@@ -160,3 +160,10 @@ class ReadDataFile(TestCase):
         data = import_data('search/data.json')
         self.assertTrue('artists' in data)
 
+class RealAPI(TestCase):
+
+    def test_get_list_from_real_request(self):
+        request = HttpRequest()
+        response = api_page(request)
+        json_data = json.loads(response.content)
+        self.assertTrue(len(json_data)>0)
