@@ -14,9 +14,9 @@ class SearchEngine(object):
     def __init__(self, data):
         self.data = data
 
-    def search(self, *args, **kwargs):
-        min_age = kwargs.get('min',0)
-        max_age = kwargs.get('max', None)
+    def search(self, min=None, max=None, **kwargs):
+        min_age = min
+        max_age = max
         r = self.data
         if max_age:
             r = [i for i in r if i['age']< max_age]
