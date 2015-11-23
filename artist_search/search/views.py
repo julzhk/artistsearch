@@ -16,8 +16,8 @@ class SearchEngine(object):
 
     def search(self, *args, **kwargs):
         min_age = kwargs.get('min',0)
-        max_age = kwargs.get('max', 900)
+        max_age = kwargs.get('max', None)
         r = self.data
         if max_age:
-            r = [i for i in self.data if i['age']< max_age]
+            r = [i for i in r if i['age']< max_age]
         return r
