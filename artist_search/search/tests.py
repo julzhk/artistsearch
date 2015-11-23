@@ -61,3 +61,10 @@ class DataSearch(TestCase):
     def test_simple_search_results_multiple_results(self):
         result = self.searcher.search(max=21)
         self.assertEqual(len(result), 2)
+
+    def test_max_age_search_has_correct_ids(self):
+        result = self.searcher.search(max=21)
+        ids = [i['uuid'] for i in result]
+        self.assertTrue('id1' in ids)
+        self.assertTrue('id2' in ids)
+        self.assertTrue('id3' not in ids)
