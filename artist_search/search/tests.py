@@ -73,6 +73,11 @@ class DataSearch(TestCase):
         self.assertTrue('id2' in ids)
         self.assertTrue('id3' not in ids)
 
-    def test_max_and_min_search(self):
+    def test_max_and_min_search_count(self):
         result = self.searcher.search(max=21, min=11)
         self.assertEqual(len(result), 1)
+
+    def test_max_and_min_search_id(self):
+        result = self.searcher.search(max=21, min=11)
+        self.assertEqual(result[0]['uuid'],'id2')
+
