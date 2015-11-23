@@ -8,9 +8,7 @@ def home_page(request):
 
 def api_page(request, data=None):
     searcher = SearchEngine(data=data)
-    min = request.GET.get('min',None)
-    max = request.GET.get('max',None)
-    results = searcher.search(min=min, max=max)
+    results = searcher.search(**request.GET)
     return HttpResponse(json.dumps(results),
                         content_type='application/json'
                         )
