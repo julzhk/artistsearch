@@ -167,3 +167,10 @@ class RealAPI(TestCase):
         response = api_page(request)
         json_data = json.loads(response.content)
         self.assertTrue(len(json_data)>0)
+
+    def test_get_list_from_real_request_with_filter(self):
+        request = HttpRequest()
+        request.GET = {'min':'11'}
+        response = api_page(request)
+        json_data = json.loads(response.content)
+        self.assertTrue(len(json_data)>0)
