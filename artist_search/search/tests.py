@@ -82,8 +82,21 @@ class DataSearch(TestCase):
 
 class APIJSONTest(TestCase):
 
+    def setUp(self):
+        self.data = [
+            {"age": 10, "uuid": "id1"},
+            {"age": 20, "uuid": "id2"},
+            {"age": 30, "uuid": "id3"}
+        ]
+
     def test_api_returns_json(self):
         request = HttpRequest()
         response = api_page(request)
+        self.assertTrue(response.status_code,200)
+        self.assertTrue('json' in response['Content-Type'])
+
+    def test_api_with_mock_data_returns_json(self):
+        request = HttpRequest()
+        response = api_page(request, data=self.data )
         self.assertTrue(response.status_code,200)
         self.assertTrue('json' in response['Content-Type'])

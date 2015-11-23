@@ -6,7 +6,7 @@ def home_page(request):
     return HttpResponse('<html><title>Artist Search API</title></html>')
 
 
-def api_page(request):
+def api_page(request, data=None):
     return HttpResponse(content_type='application/json')
 
 
