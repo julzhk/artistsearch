@@ -168,9 +168,23 @@ class RealAPI(TestCase):
         json_data = json.loads(response.content)
         self.assertTrue(len(json_data)>0)
 
-    def test_get_list_from_real_request_with_filter(self):
+    def test_get_list_from_real_request_with_min_filter(self):
         request = HttpRequest()
         request.GET = {'min':'11'}
         response = api_page(request)
         json_data = json.loads(response.content)
         self.assertTrue(len(json_data)>0)
+
+    def test_get_list_from_real_request_with_max_filter(self):
+        request = HttpRequest()
+        request.GET = {'max':'21'}
+        response = api_page(request)
+        json_data = json.loads(response.content)
+        self.assertTrue(len(json_data)>0)
+
+    def test_get_list_from_real_request_with_min_max_filter(self):
+        request = HttpRequest()
+        request.GET = {'max':'21','min':'31'}
+        response = api_page(request)
+        json_data = json.loads(response.content)
+        self.assertEqual(len(json_data),0)
