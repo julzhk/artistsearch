@@ -22,3 +22,7 @@ class APITest(TestCase):
         found = resolve('/api')
         self.assertEqual(found.func, api_page)
 
+    def test_root_url_with_trailing_slash_resolves_to_api_view(self):
+        found = resolve('/api/')
+        self.assertEqual(found.func, api_page)
+
