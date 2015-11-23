@@ -12,7 +12,10 @@ def api_page(request):
 
 class SearchEngine(object):
     def __init__(self, data):
-        pass
+        self.data = data
 
     def search(self, *args, **kwargs):
-        return [{'age':10}]
+        min_age = kwargs.get('min',0)
+        max_age = kwargs.get('max',900)
+        r = [i for i in self.data if i['age']< max_age]
+        return r
