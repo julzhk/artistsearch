@@ -2,6 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import json
 
+def read_data(fn):
+    with open(fn, 'r') as f:
+        data = f.read()
+    return data
+
+def import_data(fn):
+    data = read_data(fn)
+    return json.loads(data)
+
 def home_page(request):
     return HttpResponse('<html><title>Artist Search API</title></html>')
 

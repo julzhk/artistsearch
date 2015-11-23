@@ -1,6 +1,6 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
-from search.views import home_page, api_page, SearchEngine
+from search.views import home_page, api_page, SearchEngine, read_data, import_data
 from django.http import HttpRequest
 import json
 
@@ -149,3 +149,14 @@ class APIJSONFilterTest(TestCase):
         response = found.func(request,data=self.data)
         json_data = json.loads(response.content)
         self.assertEqual(len(json_data),1)
+
+
+class ReadDataFile(TestCase):
+    def test_read_file(self):
+        data = read_data('search/data.json')
+        self.assertTrue(len(data)>0)
+
+    def test_import_data(self):
+        data = import_data('search/data.json')
+        self.assertTrue('artists' in data)
+
