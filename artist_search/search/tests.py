@@ -1,7 +1,7 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 from search.views import home_page, api_page, SearchEngine, read_data, import_data
-from django.http import HttpRequest
+from django.http import HttpRequest, QueryDict
 import json
 
 class HomePageTest(TestCase):
@@ -135,7 +135,7 @@ class APIJSONFilterTest(TestCase):
 
     def test_api_with_mock_data_with_one_filter_json_count(self):
         request = HttpRequest()
-        request.GET = {'min':'11'}
+        request.GET = QueryDict('min=11')
         found = resolve('/api')
         response = found.func(request,data=self.data)
         json_data = json.loads(response.content)
@@ -144,7 +144,7 @@ class APIJSONFilterTest(TestCase):
 
     def test_api_with_mock_data_with_two_filters_json_count(self):
         request = HttpRequest()
-        request.GET = {'min':'11','max':21}
+        request.GET = QueryDict('min=11&max=21')
         found = resolve('/api')
         response = found.func(request,data=self.data)
         json_data = json.loads(response.content)
@@ -170,21 +170,28 @@ class RealAPI(TestCase):
 
     def test_get_list_from_real_request_with_min_filter(self):
         request = HttpRequest()
-        request.GET = {'min':'11'}
+        request.GET = QueryDict('min=11')
         response = api_page(request)
         json_data = json.loads(response.content)
         self.assertTrue(len(json_data)>0)
 
     def test_get_list_from_real_request_with_max_filter(self):
         request = HttpRequest()
-        request.GET = {'max':'21'}
+        request.GET = QueryDict('max=21')
         response = api_page(request)
         json_data = json.loads(response.content)
         self.assertTrue(len(json_data)>0)
 
     def test_get_list_from_real_request_with_min_max_filter(self):
         request = HttpRequest()
-        request.GET = {'max':'21','min':'31'}
+        request.GET = QueryDict('min=31&max=21')
         response = api_page(request)
         json_data = json.loads(response.content)
         self.assertEqual(len(json_data),0)
+
+    def test_get_list_from_real_request_with_min_max_one_age_filter(self):
+        request = HttpRequest()
+        request.GET = QueryDict('max=21&min=20')
+        response = api_page(request)
+        json_data = json.loads(response.content)
+        self.assertTrue(len(json_data)>0)

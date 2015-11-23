@@ -20,7 +20,7 @@ def api_page(request, data=None):
         raw_data = import_data('search/data.json')
         data = raw_data['artists']
     searcher = SearchEngine(data=data)
-    results = searcher.search(**request.GET)
+    results = searcher.search(**request.GET.dict())
     return HttpResponse(json.dumps(results),
                         content_type='application/json'
                         )
