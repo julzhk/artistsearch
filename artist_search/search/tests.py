@@ -26,3 +26,12 @@ class APITest(TestCase):
         found = resolve('/api/')
         self.assertEqual(found.func, api_page)
 
+class DataSearch(TestCase):
+    def test_simple_search(self):
+        data = [{"age": 10, "uuid": "id1"},
+                {"age": 20, "uuid": "id2"},
+                {"age": 30, "uuid": "id3"}
+                ]
+        searcher = SearchEngine(data)
+        result = searcher.search(max=11)
+        self.assertEqual(len(result), 1)
