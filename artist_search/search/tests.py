@@ -1,10 +1,10 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
-from search.views import home_page, api_page
+from search.views import home_page, api_page, SearchEngine
 from django.http import HttpRequest
 
-class HomePageTest(TestCase):
 
+class HomePageTest(TestCase):
     def test_root_url_resolves_to_home_page_view(self):
         found = resolve('/')
         self.assertEqual(found.func, home_page)
@@ -16,8 +16,8 @@ class HomePageTest(TestCase):
         self.assertIn(b'<title>Artist Search API</title>', response.content)
         self.assertTrue(response.content.endswith(b'</html>'))
 
-class APITest(TestCase):
 
+class SimpleAPITest(TestCase):
     def test_root_url_resolves_to_api_view(self):
         found = resolve('/api')
         self.assertEqual(found.func, api_page)
@@ -25,6 +25,19 @@ class APITest(TestCase):
     def test_root_url_with_trailing_slash_resolves_to_api_view(self):
         found = resolve('/api/')
         self.assertEqual(found.func, api_page)
+
+    def test_root_url_resolves_to_api_view_with_min_age_parameter(self):
+        found = resolve('/api?min=0')
+        self.assertEqual(found.func, api_page)
+
+    def test_root_url_resolves_to_api_view_with_max_age_parameter(self):
+        found = resolve('/api?max=100')
+        self.assertEqual(found.func, api_page)
+
+    def test_root_url_resolves_to_api_view_with_max_min_age_parameter(self):
+        found = resolve('/api?min=0&max=100')
+        self.assertEqual(found.func, api_page)
+
 
 class DataSearch(TestCase):
     def test_simple_search(self):
@@ -35,3 +48,5 @@ class DataSearch(TestCase):
         searcher = SearchEngine(data)
         result = searcher.search(max=11)
         self.assertEqual(len(result), 1)
+
+
