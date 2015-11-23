@@ -7,8 +7,11 @@ def home_page(request):
 
 
 def api_page(request, data=None):
-    data = [1,2,3]
-    return HttpResponse(json.dumps(data), content_type='application/json')
+    searcher = SearchEngine(data=data)
+    results = searcher.search()
+    return HttpResponse(json.dumps(results),
+                        content_type='application/json'
+                        )
 
 
 class SearchEngine(object):

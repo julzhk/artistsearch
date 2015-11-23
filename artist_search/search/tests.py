@@ -106,3 +106,12 @@ class APIJSONTest(TestCase):
         response = api_page(request, data=self.data)
         json_data = json.loads(response.content)
         self.assertEqual(len(json_data),3)
+
+    def test_api_with_mock_data_returns_correct_data_from_json(self):
+        request = HttpRequest()
+        response = api_page(request, data=self.data)
+        json_data = json.loads(response.content)
+        ids = [i['uuid'] for i in json_data]
+        self.assertTrue('id1' in ids)
+        self.assertTrue('id2' in ids)
+        self.assertTrue('id3' in ids)
