@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+import json
 
 def home_page(request):
     return HttpResponse('<html><title>Artist Search API</title></html>')
 
 
 def api_page(request, data=None):
-    return HttpResponse(content_type='application/json')
+    data = [1,2,3]
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 class SearchEngine(object):

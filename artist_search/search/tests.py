@@ -2,7 +2,7 @@ from django.core.urlresolvers import resolve
 from django.test import TestCase
 from search.views import home_page, api_page, SearchEngine
 from django.http import HttpRequest
-
+import json
 
 class HomePageTest(TestCase):
     def test_root_url_resolves_to_home_page_view(self):
@@ -97,6 +97,12 @@ class APIJSONTest(TestCase):
 
     def test_api_with_mock_data_returns_json(self):
         request = HttpRequest()
-        response = api_page(request, data=self.data )
+        response = api_page(request, data=self.data)
         self.assertTrue(response.status_code,200)
         self.assertTrue('json' in response['Content-Type'])
+
+    def test_api_with_mock_data_returns_data_convert_from_json(self):
+        request = HttpRequest()
+        response = api_page(request, data=self.data)
+        json_data = json.loads(response.content)
+        self.assertEqual(len(json_data),3)
