@@ -80,6 +80,32 @@ class DataSearch(TestCase):
         result = self.searcher.search(max=21, min=11)
         self.assertEqual(result[0]['uuid'], 'id2')
 
+class DataSearchBestFit(TestCase):
+    def setUp(self):
+        self.data = [
+            {"age": 10, "uuid": "id1"},
+            {"age": 20, "uuid": "id2"},
+            {"age": 30, "uuid": "id3"},
+            {"age": 40, "uuid": "id4"},
+            {"age": 50, "uuid": "id5"}
+        ]
+        self.searcher = SearchEngine(self.data)
+
+    def test_search_function(self):
+        result = self.searcher.bestfit(data=self.data)
+        ages = [i['age'] for i in result]
+        self.assertEqual(ages[0],30)
+        self.assertTrue(ages[1] == 20 or ages[1] == 40)
+        self.assertEqual(ages[-1],50)
+
+    def test_search_order(self):
+        result = self.searcher.search(min=0,max=60)
+        ages = [i['age'] for i in result]
+        self.assertEqual(ages[0],30)
+        self.assertTrue(ages[1] == 20 or ages[1] == 40)
+        self.assertEqual(ages[-1],50)
+
+
 class APIJSONTest(TestCase):
 
     def setUp(self):

@@ -25,10 +25,30 @@ def api_page(request, data=None):
                         content_type='application/json'
                         )
 
+def set_bias(artist_dict,median_age):
+    artist_dict['bias'] = abs(artist_dict['age'] - median_age)
+    return artist_dict
+
 
 class SearchEngine(object):
     def __init__(self, data):
         self.data = data
+
+    def bestfit(self,data):
+        """
+        given a dataset order by middle of age range
+        :param data: list of dicts {age:int, uuid = ID}
+        :return: sorted data biased to middle of age range
+        """
+        try:
+            ages = [i['age'] for i in data]
+            max_age, min_age = max(ages),min(ages)
+            median_age = ((max_age - min_age) / 2.0) + min_age
+            decorated_data= [set_bias(i, median_age) for i in data]
+            return sorted(decorated_data,key=lambda artist : artist['bias'])
+        except ValueError:
+            return data
+
 
     def search(self, min=None, max=None, **kwargs):
         r = self.data
@@ -36,4 +56,4 @@ class SearchEngine(object):
             r = [i for i in r if i['age'] <= int(max)]
         if min:
             r = [i for i in r if i['age'] > int(min)]
-        return r
+        return self.bestfit(r)
